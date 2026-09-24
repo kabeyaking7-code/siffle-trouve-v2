@@ -1,9 +1,9 @@
-name: Build Siffle Trouve APK
+name: Créer un APK Siffle Trouve
 
 on:
   workflow_dispatch:
   push:
-    branches: ["principal", "main"]
+    branches: ["main"]
 
 jobs:
   build:
@@ -15,8 +15,8 @@ jobs:
 
       - name: Décompresser le projet
         run: |
-          mkdir project
-          unzip -o SiffleTrouve_V2_Online.zip -d project
+          mkdir projet
+          unzip -o SiffleTrouve_V2_Online.zip -d projet
 
       - name: Installer Java 17
         uses: actions/setup-java@v4
@@ -37,15 +37,15 @@ jobs:
           sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Générer Gradle Wrapper
-        working-directory: project
+        working-directory: projet
         run: gradle wrapper --gradle-version 8.9
 
       - name: Compiler l'application
-        working-directory: project
+        working-directory: projet
         run: ./gradlew assembleDebug
 
       - name: Publier l'APK
         uses: actions/upload-artifact@v4
         with:
-          name: SiffleTrouve-debug-apk
-          path: project/app/build/outputs/apk/debug/app-debug.apk
+          name: SiffleTrouve-APK
+          path: projet/app/build/outputs/apk/debug/app-debug.apk
